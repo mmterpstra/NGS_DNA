@@ -16,12 +16,12 @@
 #list externalSampleID
 #list batchID
 #list seqType
-#string automateVersion
+#string gavinOutputFirstPass
+#string gavinOutputFinal
 # Change permissions
 
-umask 0007
 
-module load ${automateVersion}
+umask 0007
 
 #Function to check if array contains value
 array_contains () {
@@ -63,6 +63,17 @@ printf "Copying fastQC output to results directory.."
 rsync -a ${intermediateDir}/*_fastqc.zip ${projectResultsDir}/qc/
 printf ".. finished (3/11)\n"
 
+##Copy GAVIN results
+if [ -f ${gavinOutputFirstPass} ]
+then
+	rsync -a ${gavinOutputFirstPass} ${projectResultsDir}/variants/GAVIN/
+fi
+
+if [ -f ${gavinOutputFinal} ]
+then
+	rsync -a ${gavinOutputFinal} ${projectResultsDir}/variants/GAVIN/
+fi
+
 count=1
 #copy realigned bams
 printf "Copying ${EXTERN} realigned bams "
@@ -74,6 +85,7 @@ do
 	if [ -f ${intermediateDir}/${sample}.merged.dedup.bam.cram ] 
 	then
 		rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.cram ${projectResultsDir}/alignment/
+		rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.cram.md5 ${projectResultsDir}/alignment/
 	fi
 
 	printf "."
@@ -103,7 +115,6 @@ do
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.quality_distribution_metrics ${projectResultsDir}/qc/statistics/
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.hs_metrics ${projectResultsDir}/qc/statistics/
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.bam_index_stats ${projectResultsDir}/qc/statistics/
-	rsync -a ${intermediateDir}/${sample}.merged.dedup.metrics ${projectResultsDir}/qc/statistics/
 	rsync -a ${intermediateDir}/${sample}.merged.dedup.bam.flagstat ${projectResultsDir}/qc/statistics/
 	rsync -a ${intermediateDir}/${sample}*.pdf ${projectResultsDir}/qc/statistics/
 	if [ -f "${intermediateDir}/${sample}.merged.dedup.bam.insert_size_metrics" ]
@@ -118,10 +129,15 @@ done
 
 printf "Copying variants vcf and tables to results directory "
 # Copy variants vcf and tables to results directory
-rsync -a ${projectPrefix}.final.vcf ${projectResultsDir}/variants/
-printf "."
 rsync -a ${projectPrefix}.final.vcf.table ${projectResultsDir}/variants/
 printf "."
+rsync -a ${projectPrefix}.final.vcf.gz ${projectResultsDir}/variants/
+printf "."
+rsync -a ${projectPrefix}.final.vcf.gz.tbi ${projectResultsDir}/variants/
+printf "."
+
+
+
 for sa in "${UNIQUESAMPLES[@]}"
 do
 	if [ -f ${intermediateDir}/Manta/${sa}/results/variants/candidateSV.vcf.gz ]
@@ -141,10 +157,14 @@ printf " finished (7/11)\n"
 printf "Copying vcf files, gender determination, coverage per base and per target files "
 for sa in "${UNIQUESAMPLES[@]}"
 do
-	rsync -a ${intermediateDir}/${sa}.final.vcf ${projectResultsDir}/variants/
-	printf "."
 	rsync -a ${intermediateDir}/${sa}.final.vcf.table ${projectResultsDir}/variants/
 	printf "."
+
+	rsync -a ${intermediateDir}/${sa}.final.vcf.gz ${projectResultsDir}/variants/
+	printf "."
+	rsync -a ${intermediateDir}/${sa}.final.vcf.gz.tbi ${projectResultsDir}/variants/
+	printf "."
+
 
 	rsync -a ${intermediateDir}/${sa}.chosenSex.txt ${projectResultsDir}/general/
 	printf "."

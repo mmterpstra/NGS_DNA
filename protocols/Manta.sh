@@ -32,7 +32,6 @@ else
 	--referenceFasta ${indexFile} \
 	--runDir ${tmpMantaDir}
 
-
 	python ${tmpMantaDir}/runWorkflow.py -m local -j 20
 
 	mv ${tmpMantaDir}/* ${mantaDir} 

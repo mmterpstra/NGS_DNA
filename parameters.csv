@@ -8,37 +8,37 @@ targetedInsertSize,200
 checkStage,module list
 
 ### Tool versions ####
-automateVersion,NGS_Automated/1.0.1
 bwaVersion,BWA/0.7.12-${toolChain}
 computeVersion,v16.08.1-Java-1.8.0_74
 convadingVersion,CoNVaDING/1.1.6
-cutadaptVersion,1.8.1-${toolChain}-Python-2.7.9
 dellyVersion,v0.7.1
 fastqcVersion,FastQC/0.11.3-Java-1.7.0_80
 gatkVersion,GATK/3.6-Java-1.8.0_74 
-gavinVersion,GAVIN/0.0.1-Java-1.8.0_74
+gavinVersion,GAVIN/1.0-Java-1.8.0_74
+gavinMergeBackToolVersion,GavinMergeBackTool/0.2-Java-1.8.0_74
 iolibVersion,io_lib/1.14.6-${toolChain}
 javaVersion,Java/1.8.0_74
-mantaVersion,manta/0.29.5-foss-2015b
+mantaVersion,manta/1.0.1-${toolChain}
 molgenisAnnotatorVersion,CmdLineAnnotator/1.21.1-Java-1.8.0_45
-ngsUtilsVersion,ngs-utils/16.05.1
+ngsUtilsVersion,ngs-utils/16.10.2
 plinkSeqVersion,plinkseq/x86_64-0.10
 picardVersion,picard/1.130-Java-1.7.0_80
-pythonVersion,Python/2.7.9-${toolChain}
+pythonVersion,Python/2.7.10-${toolChain}
 rVersion,R/3.2.1-${toolChain}
-sambambaVersion,sambamba/v0.6.3-${toolChain} 
+sambambaVersion,sambamba/${sambambaVer}-${toolChain}
+sambambaVer,v0.6.4
 samtoolsVersion,SAMtools/1.2-${toolChain}
 snpEffVersion,snpEff/4.3-Java-1.7.0_80
 tabixVersion,tabix/0.2.6-${toolChain}
 wkHtmlToPdfVersion,wkhtmltox/0.12.3
-xhmmVersion,xhmm/2016-01-04-cc14e528d909-foss-2015b
-## Jars
+xhmmVersion,xhmm/2016-01-04-cc14e528d909-${toolChain}
 hpoVersion,90
 gatkJar,GenomeAnalysisTK.jar
-gavinJar,GAVIN-APP-0.0.1-testing.jar
+gavinJar,GAVIN-APP-1.0.jar
+gavinMergeBackToolJar,MergeBackTool-0.2.jar
 molgenisAnnotatorJar,CmdLineAnnotator-1.21.1.jar
 picardJar,picard.jar
-sambambaTool,sambamba_v0.6.3
+sambambaTool,sambamba_${sambambaVer}
 
 ##### GENERAL DIRECTORIES #####
 dataDir,${appsDir}/data/
@@ -180,15 +180,15 @@ dbSNP137Vcf,${dbSNPDir}/dbsnp_137.b37.vcf
 dbSNP137VcfIdx,${dbSNP137Vcf}.idx
 dbSNPExSiteAfter129Vcf,${dbSNPDir}/dbsnp_137.b37.excluding_sites_after_129.vcf
 dbSNPExSiteAfter129VcfIdx,${dbSNPExSiteAfter129Vcf}.idx
-sampleBatchVariantCalls,${sampleNameID}.batch-${batchID}.variant.calls.g.vcf
-sampleBatchVariantCallsIdx,${sampleBatchVariantCalls}.idx
-sampleBatchVariantCallsFemale,${sampleNameID}.batch-${batchID}.chrX.female.variant.calls.g.vcf
-sampleBatchVariantCallsFemaleIdx,${sampleBatchVariantCallsFemale}.idx
-sampleBatchVariantCallsMaleNONPAR,${sampleNameID}.batch-${batchID}.chrX.male.NONPAR.variant.calls.g.vcf
-sampleBatchVariantCallsMaleNONPARIdx,${sampleBatchVariantCallsMaleNONPAR}.idx
-projectBatchCombinedVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.combined.g.vcf
-projectBatchGenotypedVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.genotyped.vcf
+sampleBatchVariantCalls,${sampleNameID}.batch-${batchID}.variant.calls.g.vcf.gz
+sampleBatchVariantCallsIndex,${sampleBatchVariantCalls}.tbi
+sampleBatchVariantCallsFemale,${sampleNameID}.batch-${batchID}.chrX.female.variant.calls.g.vcf.gz
+sampleBatchVariantCallsFemaleIndex,${sampleBatchVariantCallsFemale}.tbi
+sampleBatchVariantCallsMaleNONPAR,${sampleNameID}.batch-${batchID}.chrX.male.NONPAR.variant.calls.g.vcf.gz
+sampleBatchVariantCallsMaleNONPARIndex,${sampleBatchVariantCallsMaleNONPAR}.tbi
 sampleBatchVariantCallsCompressed,${intermediateDir}/gVCF/${externalSampleID}.batch-${batchID}.variant.calls.g.vcf.gz
+projectBatchCombinedVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.combined.g.vcf.gz
+projectBatchGenotypedVariantCalls,${projectPrefix}.batch-${batchID}.variant.calls.genotyped.vcf
 
 projectVariantCallsSnpEff_Annotated,${projectPrefix}.batch-${batchID}.variant.calls.snpeff.vcf
 projectVariantCallsSnpEff_ExAC_Annotated,${projectPrefix}.batch-${batchID}.variant.calls.snpeff.exac.vcf
@@ -197,12 +197,17 @@ projectVariantCallsSnpEff_ExAC_GoNL_CADD_Annotated,${projectPrefix}.batch-${batc
 
 ####GAVIN 
 gavinDataDir,${dataDir}/GAVIN/
-gavinClinVar,${gavinDataDir}/clinvar.patho.fix.5.5.16.vcf.gz
-gavinCGD,${gavinDataDir}/CGD_1jun2016.txt.gz
-gavinFDR,${gavinDataDir}/FDR_allGenes.tsv
-gavinCalibrations,${gavinDataDir}/GAVIN_calibrations_r0.1.tsv
+gavinClinVar,${gavinDataDir}/clinvar.patho.fix.11oct2016.vcf.gz
+gavinCGD,${gavinDataDir}/CGD_11oct2016.txt.gz
+gavinFDR,${gavinDataDir}/FDR_allGenes_r1.0.tsv
+gavinCalibrations,${gavinDataDir}/GAVIN_calibrations_r0.3.tsv
 gavinOutputFirstPass,${projectPrefix}.GAVIN.RVCF.firstpass.vcf
+gavinOutputFinal,${projectPrefix}.GAVIN.RVCF.final.vcf
 gavinToCADD,${projectPrefix}.GAVIN.toCadd.tsv
+gavinFromCADD,${projectPrefix}.GAVIN.fromCadd.tsv 
+
+gavinOutputFirstPassMerged,${projectPrefix}.GAVIN.RVCF.firstpass.mergedWithOriginal.vcf
+
 
 ### Protocols 17, 19, 20, 21, 22 and 23 (MergeBatches, VariantAnnotator, dbNSFPAnnotation, VariantFiltration, IndelFiltration, SplitIndelsSNPs) ###
 projectVariantCallsSnpEff_ExAC_GoNL_CADD_GATK_Annotated,${projectPrefix}.batch-${batchID}.variant.calls.snpeff.exac.gonl.cadd.gatk.vcf
@@ -217,7 +222,9 @@ sortVCFpl,sortVCFbyFai.pl
 
 
 ### Protocols 24 and 25 (VcfToTable, QCReport) ###
-variantsFinalProjectVcfTable,${projectPrefix}.final.vcf.table
+sampleFinalVcf,${intermediateDir}/${externalSampleID}.final.vcf
+projectFinalVcf,${projectPrefix}.final.vcf
+variantsFinalProjectVcfTable,${projectFinalVcf}.table
 vcf2Table,vcf2tabV3.pl
 getStatisticsScript,getStatistics.R
 getDedupInfoScript,getDedupInfo.R
@@ -238,7 +245,7 @@ fileWithIndexId,${intermediateDir}/${filePrefix}_${barcode}
 
 ## Protocols Convading and XHMM
 convadingDataDir,${dataDir}/Convading/
-convadingControlsDir,${convadingDataDir}/Controls/
+convadingControlsDir,${dataDir}/ConvadingXHMMControls/
 
 convadingDir,${intermediateDir}/Convading/
 convadingInputBamsDir,${convadingDir}/bams/${externalSampleID}/
